@@ -1,5 +1,13 @@
-# gRPC python
+# gRPC quick start
 
-Tutorial: https://grpc.io/docs/languages/python/basics/
+gRPC is a modern open source high performance Remote Procedure Call (RPC) framework.
 
-API doc: https://grpc.github.io/grpc/python/grpc.html
+[Quick start](https://grpc.io/docs/languages/python/quickstart/)
+
+```
+grpcui -protoset=myservice.protoset -plaintext -v :50051  
+```
+
+
+
+
