@@ -1,6 +1,7 @@
-PROJECT_NAME := "python_lab"
+PROJECT_NAME := python_lab
 
-ES_IMAGE := elasticsearch:7.10.1
+ES_VERSION := 7.10.1
+ES_IMAGE := elasticsearch:$(ES_VERSION)
 
 ifeq ($(shell uname -m),arm64)
   ES_IMAGE := arm64v8/$(ES_IMAGE)
