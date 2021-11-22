@@ -4,7 +4,7 @@ Version: 7.1.0
 Document: https://elasticsearch-dsl.readthedocs.io/en/latest/
 Repository: https://github.com/elastic/elasticsearch-dsl-py
 
-download office sample data: https://www.elastic.co/guide/en/kibana/7.0/tutorial-load-dataset.html
+download office sample data: https://www.elastic.co/guide/en/kibana/7.6/tutorial-build-dashboard.html#load-dataset
 
 ## elasticsearch prepare
 
