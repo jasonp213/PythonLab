@@ -20,7 +20,7 @@ class Article(Document):
 
     def save(self, ** kwargs):
         self.lines = len(self.body.split())
-        return super(Article, self).save(** kwargs)
+        return super(Article, self).save(**kwargs)
 
     def is_published(self):
         return datetime.now() >= self.published_from
