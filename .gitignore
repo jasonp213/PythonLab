@@ -1,5 +1,10 @@
 .idea
 
+accounts.json
+accounts.zip
+logs.jsonl
+shakespeare.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
