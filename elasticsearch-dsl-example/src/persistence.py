@@ -57,22 +57,3 @@ class LogStash(Document):
         }
 
 
-if __name__ == '__main__':
-    from elasticsearch import Elasticsearch
-    from elasticsearch_dsl import Search
-    from elasticsearch_dsl.connections import connections
-    import os
-    import sys
-
-    sys.path.append(f'{os.getcwd()}/elasticsearch-dsl-example/src')
-    from persistence import Accounts, LogStash, Shakespeare
-
-    connections.create_connection(hosts=['localhost'])
-
-    from elasticsearch_dsl import FacetedSearch
-
-
-    class BandSearch(FacetedSearch):
-        doc_types = [Accounts, ]
-
-
