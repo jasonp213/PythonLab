@@ -5,7 +5,7 @@ https://www.elastic.co/guide/en/kibana/7.6/tutorial-build-dashboard.html#load-da
 
 """
 
-from elasticsearch_dsl import Document, Integer, Text, Keyword, GeoPoint, Date
+from elasticsearch_dsl import Document, Integer, Text, Keyword, GeoPoint, Date, InnerDoc
 
 
 class Shakespeare(Document):
@@ -18,7 +18,7 @@ class Shakespeare(Document):
     text_entry = Text()
 
 
-class Accounts(Document):
+class Bank(Document):
 
     account_number = Integer()
     balance = Integer()
@@ -37,7 +37,6 @@ class Accounts(Document):
 
         settings = {
             "number_of_shards": 1,
-            # Note that the number of replicas 0 means
             "number_of_replicas": 0
         }
 
@@ -52,4 +51,28 @@ class LogStash(Document):
         """
         this define the index meta
         """
-        name = 'logstash'
+        name = 'logstash-*'
+        aliases = {
+            'logstash': {}
+        }
+
+
+if __name__ == '__main__':
+    from elasticsearch import Elasticsearch
+    from elasticsearch_dsl import Search
+    from elasticsearch_dsl.connections import connections
+    import os
+    import sys
+
+    sys.path.append(f'{os.getcwd()}/elasticsearch-dsl-example/src')
+    from persistence import Accounts, LogStash, Shakespeare
+
+    connections.create_connection(hosts=['localhost'])
+
+    from elasticsearch_dsl import FacetedSearch
+
+
+    class BandSearch(FacetedSearch):
+        doc_types = [Accounts, ]
+
+
