@@ -3,6 +3,7 @@
 accounts.json
 accounts.zip
 logs.jsonl
+logs.jsonl.gz
 shakespeare.json
 
 # Byte-compiled / optimized / DLL files
