@@ -12,7 +12,7 @@ ifeq ($(shell uname -m),arm64)
   ES_IMAGE := arm64v8/$(ES_IMAGE)
 endif
 
-all: | check_es_fail_start load_sample_data
+all: | check_es_fail_start load_dataset
 
 start_es:
 	docker run -d --rm \
@@ -31,26 +31,26 @@ stop_es:
 
 # setup the sample dataset
 # https://www.elastic.co/guide/en/kibana/7.0/tutorial-load-dataset.html
-load_sample_data: load_shakespeare load_account load_logs
+load_dataset: bulk_shakespeare bulk_account bulk_logs
 
-load_shakespeare: mapping_shakespeare shakespeare.json
+bulk_shakespeare: create_index_shakespeare shakespeare.json
 	@curl -H 'Content-Type: application/x-ndjson' -XPOST 'localhost:9200/shakespeare/_bulk' --data-binary @shakespeare.json
 
-load_logs: mapping_logs logs.jsonl
+bulk_logs: create_index_logs logs.jsonl
 	@curl -H 'Content-Type: application/x-ndjson' -XPOST 'localhost:9200/_bulk' --data-binary @logs.jsonl
 
-load_account: accounts.json
+bulk_account: accounts.json
 	@curl -H 'Content-Type: application/x-ndjson' -XPOST 'localhost:9200/bank/_bulk' --data-binary @accounts.json
 
-mapping_shakespeare:
+create_index_shakespeare:
 	@curl -X PUT "localhost:9200/shakespeare?pretty" -H 'Content-Type: application/json' -d'{"mappings": {	"properties": {	"speaker": {"type": "keyword"},	"play_name": {"type": "keyword"},	"line_id": {"type": "integer"},	"speech_number": {"type": "integer"}	}}}'
 
-mapping_logs:
+create_index_logs:
 	@curl -X PUT "localhost:9200/logstash-2015.05.18?pretty" -H 'Content-Type: application/json' -d'{"mappings": {"properties": {"geo": {"properties": {"coordinates": {"type": "geo_point"}}}}}}'
 	@curl -X PUT "localhost:9200/logstash-2015.05.19?pretty" -H 'Content-Type: application/json' -d'{"mappings": {"properties": {"geo": {"properties": {"coordinates": {"type": "geo_point"}}}}}}'
 	@curl -X PUT "localhost:9200/logstash-2015.05.20?pretty" -H 'Content-Type: application/json' -d'{"mappings": {"properties": {"geo": {"properties": {"coordinates": {"type": "geo_point"}}}}}}'
 
-dataset: shakespeare.json accounts.json logs.jsonl
+download_dataset: shakespeare.json accounts.json logs.jsonl
 
 shakespeare.json:
 	if !([ -f $@ ]); then \
