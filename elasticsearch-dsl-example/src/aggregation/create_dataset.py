@@ -8,17 +8,20 @@ from elasticsearch_dsl import Document, Keyword
 from elasticsearch_dsl.connections import connections
 
 
-def gen_data(times=300000):
-    p1 = 'Joey'
-    p2 = 'Tom'
-    lookup = {
-        0: p1,
-        1: p2,
-    }
-    for _ in range(times):
+def gen_data(times=10 * 1000 * 1000, player=200 * 1000, index='tennis'):
+    times = max(times, player)
+    # make sure each at least one
+    for i in range(player):
         yield {
-            '_index': 'tennis',
-            'winner': lookup[random.randint(0, 1)]
+            '_index': index,
+            'winner': f'player-{i}'
+        }
+
+    # such total to times
+    for _ in range(times - player):
+        yield {
+            '_index': index,
+            'winner': f'player-{random.randint(0, player)}'
         }
 
 
@@ -59,22 +62,35 @@ def DocFactory():
     return new_cls
 
 
-connections.create_connection(hosts=['localhost'])
-
 if __name__ == '__main__':
+
     connections.create_connection(hosts=['localhost'])
+
+    es = connections.get_connection()  # equal to es = elasticsearch.Elasticsearch()
+
+    # the es-dsl-py no api the query template
+    customer_templates = es.transport.perform_request("GET", "/_template/template-*")
+    if 'template-tennis' not in customer_templates:
+        print('create template')
+        TennisGameTemplate._index.as_template('template-tennis').save()
+    else:
+        print('template exist')
 
     TennisGame = DocFactory()
 
-    print(f'_index._name: {TennisGame._index._name}, Index.name: {TennisGame.Index.name}')
+    index_name = TennisGame._index._name
 
-    if not TennisGame._index.exists():
-        print('')
-        TennisGame.init()
+    print(f'_index._name: {index_name}, Index.name: {TennisGame.Index.name}')
 
     start = time.time()
-    es = connections.get_connection()
+    if not TennisGame._index.exists():
+        print('Create index')
+        TennisGame.init()
 
-    bulk(es, gen_data())
+        es = connections.get_connection()
+
+        bulk(es, gen_data(index=index_name))
+    else:
+        print('Index exist')
 
     print(f"setup done! spend: {time.time() - start}")
