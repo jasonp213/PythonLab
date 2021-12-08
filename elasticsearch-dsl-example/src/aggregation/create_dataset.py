@@ -1,14 +1,16 @@
 import copy
 import random
 import time
+from collections import deque
 from datetime import date
 
-from elasticsearch.helpers import bulk
+from elasticsearch.exceptions import NotFoundError
+from elasticsearch.helpers import bulk, parallel_bulk
 from elasticsearch_dsl import Document, Keyword
 from elasticsearch_dsl.connections import connections
 
 
-def gen_data(times=10 * 1000 * 1000, player=200 * 1000, index='tennis'):
+def gen_data(times=1000 * 1000, player=200 * 1000, index='tennis'):
     times = max(times, player)
     # make sure each at least one
     for i in range(player):
@@ -45,6 +47,7 @@ class TennisGameTemplate(Document):
         aliases = {'tennis': {}}
         settings = {
             "number_of_shards": 1,
+            "number_of_replicas": 0
         }
         # the template of es-dsl-py `version` not working
         # src: https://github.com/elastic/elasticsearch-dsl-py/blob/58c02732658018333cfd5fa2f7b70d942773b0be/elasticsearch_dsl/index.py#L27
@@ -52,8 +55,8 @@ class TennisGameTemplate(Document):
         version = 1
 
 
-def DocFactory():
-    index_name = f"tennis-{date.today().strftime('%Y-%m-%d')}"
+def DocFactory(index=None, index_settings=None):
+    index_name = index or f"tennis-{date.today().strftime('%Y-%m-%d')}"
 
     new_cls = copy.copy(TennisGameTemplate)
     index_cls = getattr(new_cls, '_index')
@@ -62,19 +65,29 @@ def DocFactory():
     return new_cls
 
 
+def create_template(es_client, doc_cls, template_name="template-tennis"):
+    # the es-dsl-py no api the query template
+    try:
+        customer_templates = es_client.transport.perform_request("GET", f"/_template/{template_name}")
+    except NotFoundError as err:
+        customer_templates = {}
+
+    if template_name not in customer_templates:
+        print('create template')
+        index = getattr(doc_cls, "_index", None)
+        if index:
+            index.as_template('template-tennis').save()
+    else:
+        print('template exist')
+
+
 if __name__ == '__main__':
 
     connections.create_connection(hosts=['localhost'])
 
     es = connections.get_connection()  # equal to es = elasticsearch.Elasticsearch()
 
-    # the es-dsl-py no api the query template
-    customer_templates = es.transport.perform_request("GET", "/_template/template-*")
-    if 'template-tennis' not in customer_templates:
-        print('create template')
-        TennisGameTemplate._index.as_template('template-tennis').save()
-    else:
-        print('template exist')
+    create_template(es, TennisGameTemplate)
 
     TennisGame = DocFactory()
 
@@ -87,10 +100,17 @@ if __name__ == '__main__':
         print('Create index')
         TennisGame.init()
 
-        es = connections.get_connection()
-
-        bulk(es, gen_data(index=index_name))
     else:
         print('Index exist')
+
+    print("bulk insert")
+
+    es = connections.get_connection()
+
+    bulk(es, gen_data(index=index_name))
+    # deque(parallel_bulk(es, gen_data(index=index_name)), maxlen=0)
+    # for success, info in parallel_bulk(es, gen_data(index=index_name)):
+    #     if not success:
+    #         print('A document failed:', info)
 
     print(f"setup done! spend: {time.time() - start}")
