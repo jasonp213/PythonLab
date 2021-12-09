@@ -1,11 +1,10 @@
 import copy
 import random
 import time
-from collections import deque
 from datetime import date
 
 from elasticsearch.exceptions import NotFoundError
-from elasticsearch.helpers import bulk, parallel_bulk
+from elasticsearch.helpers import bulk
 from elasticsearch_dsl import Document, Keyword
 from elasticsearch_dsl.connections import connections
 
