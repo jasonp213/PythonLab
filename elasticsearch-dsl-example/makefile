@@ -1,7 +1,7 @@
 PROJECT_NAME := python_lab
 
 # since no docker image of 7.6
-ES_VERSION := 7.10.1
+ES_VERSION := 7.16.3
 ES_IMAGE := elasticsearch:$(ES_VERSION)
 
 ES_HOST := localhost
@@ -14,13 +14,20 @@ endif
 
 all: | check_es_fail_start load_dataset
 
+# https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.16.3/elasticsearch-analysis-ik-7.16.3.zip
+
+build_es:
+	docker build -t my_es .
+
 start_es:
 	docker run -d --rm \
 	-e discovery.type=single-node \
 	-p 9200:9200 \
 	--name $(PROJECT_NAME)_es \
-	$(ES_IMAGE); \
-	sleep 5
+	my_es
+
+start_es_shell:
+	docker exec -ti $(PROJECT_NAME)_es bash
 
 check_es_fail_start:
 	@curl -s http://localhost:9200/_cat/health || $(MAKE) start_es
