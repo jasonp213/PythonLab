@@ -1,5 +1,7 @@
 .idea
 
+diagrams_example/*.png
+
 accounts.json
 accounts.zip
 logs.jsonl
