@@ -1,6 +1,12 @@
+# https://elasticsearch-dsl.readthedocs.io/en/latest/
 elasticsearch-dsl
 
+# https://grpc.io/docs/languages/python/quickstart/
 grpcio
 grpcio-tools
 
+# https://marshmallow.readthedocs.io/en/stable/
 marshmallow
+
+# https://github.com/mingrammer/diagrams
+diagrams
