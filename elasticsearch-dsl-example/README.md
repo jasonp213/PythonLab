@@ -28,6 +28,10 @@ The API main component
 - Document
 - Search
 
+## Analyzer IK
+
+這裡安裝了IK analyzer，因為一些技術性問題沒有直接使用 elastic-plugin install
+
 
 ## Others:
 
