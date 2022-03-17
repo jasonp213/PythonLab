@@ -1,4 +1,4 @@
-# Elasticsearch DSL 
+# Elasticsearch DSL
 
 Version: 7.6.0
 Document: https://elasticsearch-dsl.readthedocs.io/en/latest/
@@ -16,7 +16,7 @@ make
 ## TODO
 
 - using sample create APIs
-  
+
 - [x] Write `makefile` for setup env convenient
 - [x] Different of the `Document._index` and `Document.index`
 Since IDE warning the field start of underline, the [document is using _index](https://elasticsearch-dsl.readthedocs.io/en/latest/persistence.html?highlight=template#indextemplate)
@@ -46,7 +46,7 @@ The API main component
 `POST bank/_bulk`
 
 這是源至於一個 deprecated 的設計 mapping types
->`_type` field  
+>`_type` field
 >Deprecated in 6.0.0.
 See [Removal of mapping types](https://www.elastic.co/guide/en/elasticsearch/reference/current/removal-of-types.html)
 

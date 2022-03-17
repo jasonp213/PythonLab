@@ -32,12 +32,9 @@ class Bank(Document):
     state = Text()
 
     class Index:
-        name = 'bank'
+        name = "bank"
 
-        settings = {
-            "number_of_shards": 1,
-            "number_of_replicas": 0
-        }
+        settings = {"number_of_shards": 1, "number_of_replicas": 0}
 
 
 class LogStash(Document):
@@ -49,24 +46,25 @@ class LogStash(Document):
         """
         this define the index meta
         """
-        name = 'logstash-*'
+
+        name = "logstash-*"
         aliases = {
-            'logstash': {
+            "logstash": {
                 # here could put filter
             }
         }
 
 
 def setup_log():
-    alias = 'logstash'
-    patten = 'logstash-*'  # using wildcard char
+    alias = "logstash"
+    patten = "logstash-*"  # using wildcard char
 
     template = LogStash._index.as_template(alias, patten)
 
     return template.save()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # python shell template script
     # import os
     #
@@ -75,6 +73,6 @@ if __name__ == '__main__':
     # from
     # from elasticsearch_dsl.connections import connections
 
-    connections.create_connection(hosts=['localhost'])
+    connections.create_connection(hosts=["localhost"])
 
     print(setup_log())
