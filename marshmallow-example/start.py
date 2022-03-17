@@ -14,7 +14,7 @@ class AlbumSchema(Schema):
     artist = fields.Nested(ArtistSchema())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     bowie = dict(name="David Bowie")
     album = dict(artist=bowie, title="Hunky Dory", release_date=date(1971, 12, 17))
 

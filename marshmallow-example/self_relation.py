@@ -20,22 +20,12 @@ class NestedTag(Schema):
     def create_dto(self, data, many=False, partial=False):
         return TagDto(**data)
 
-tag_a = {
-    "id": 1,
-    "name": "book"
-}
-tag_b = {
-    "id": 2,
-    "name": "novel",
-    "parent": tag_a
-}
-tag_c = {
-    "id": 3,
-    "name": "draw",
-    "parent": 1
-}
 
-if __name__ == '__main__':
+tag_a = {"id": 1, "name": "book"}
+tag_b = {"id": 2, "name": "novel", "parent": tag_a}
+tag_c = {"id": 3, "name": "draw", "parent": 1}
+
+if __name__ == "__main__":
     schema = NestedTag()
     a = schema.load(tag_a)
     print(f"{a=}")
@@ -45,5 +35,3 @@ if __name__ == '__main__':
         c = schema.load(tag_c)
     except marshmallow.ValidationError as err:
         print(f"{err=}")
-
-
