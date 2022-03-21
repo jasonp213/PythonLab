@@ -8,5 +8,15 @@ grpcio-tools
 # https://marshmallow.readthedocs.io/en/stable/
 marshmallow
 
+# https://github.com/marshmallow-code/apispec
+apispec
+apispec-webframeworks
+
+# https://flask.palletsprojects.com/en/2.0.x/
+flask
+
 # https://github.com/mingrammer/diagrams
 diagrams
+
+# requests
+requests
