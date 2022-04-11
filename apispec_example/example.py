@@ -90,7 +90,7 @@ def random_pet():
         200:
           content:
             application/json:
-              schema: PetSchema
+                schema: PetSchema
     """
     pet = get_random_pet()
     return PetSchema().dump(pet)
@@ -98,6 +98,15 @@ def random_pet():
 
 @app.route("/random/spec")
 def random_spec():
+    """Here commen
+    ---
+    get:
+      description: Get swagger
+      responses:
+        200:
+          content:
+            application/json:
+    """
     import json
 
     return json.dumps(spec.to_dict(), indent=2)
@@ -106,3 +115,4 @@ def random_spec():
 # Register the path and the entities within it
 with app.test_request_context():
     spec.path(view=random_pet)
+    spec.path(view=random_spec)
