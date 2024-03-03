@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-import json
 
 app = FastAPI()
 
@@ -17,5 +16,4 @@ async def item(q):
 
 @app.get("/items")
 async def items(*args):
-
     return args

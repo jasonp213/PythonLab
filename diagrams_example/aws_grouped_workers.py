@@ -1,4 +1,4 @@
-from diagrams import Diagram, Cluster
+from diagrams import Cluster, Diagram
 from diagrams.aws.compute import EC2, ECS
 from diagrams.aws.database import RDS, ElastiCache
 from diagrams.aws.network import ELB, Route53

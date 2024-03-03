@@ -6,14 +6,13 @@ only implement a little detail with https://docs.thecatapi.com/
 
 """
 from dataclasses import dataclass
-from urllib import request
+
+import requests
 from apispec import APISpec
 from apispec.ext.marshmallow import MarshmallowPlugin
 from apispec_webframeworks.flask import FlaskPlugin
 from flask import Flask, redirect, url_for
 from marshmallow import Schema, fields
-import requests
-
 
 # Create an APISpec
 spec = APISpec(
