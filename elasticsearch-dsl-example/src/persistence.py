@@ -5,7 +5,7 @@ https://www.elastic.co/guide/en/kibana/7.6/tutorial-build-dashboard.html#load-da
 
 """
 
-from elasticsearch_dsl import Document, Integer, Text, Keyword, GeoPoint, Date
+from elasticsearch_dsl import Date, Document, GeoPoint, Integer, Keyword, Text
 from elasticsearch_dsl.connections import connections
 
 

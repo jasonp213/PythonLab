@@ -74,7 +74,6 @@ def create_template(es_client, doc_cls, template_name="template-tennis"):
 
 
 if __name__ == "__main__":
-
     connections.create_connection(hosts=["localhost"])
 
     es = connections.get_connection()  # equal to es = elasticsearch.Elasticsearch()

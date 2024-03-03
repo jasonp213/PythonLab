@@ -5,8 +5,9 @@ import importlib
 from unittest import TestCase
 from unittest.mock import patch
 
-from UnitTest.app.uut import unit_to_be_tested
 from app import uut  # Module with our thing to test
+
+from UnitTest.app.uut import unit_to_be_tested
 
 
 class TestUUT(TestCase):
