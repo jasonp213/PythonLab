@@ -13,3 +13,4 @@ python-dotenv==1.0.1
 python-telegram-bot==20.8
 rich==13.7.1
 uvicorn==0.27.1
+polars==0.20.13
