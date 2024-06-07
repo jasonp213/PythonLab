@@ -1,17 +1,35 @@
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.5.0
+  rev: v4.4.0
   hooks:
   - id: check-yaml
   - id: debug-statements
   - id: end-of-file-fixer
   - id: trailing-whitespace
     args: [--markdown-linebreak-ext=md]
-- repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.2.2
+- repo: https://github.com/PyCQA/isort
+  rev: 5.12.0
   hooks:
-    # Run the linter.
-    - id: ruff
-      args: [--fix]
-    # Run the formatter.
-    - id: ruff-format
+    - id: isort
+      # https://pycqa.github.io/isort/docs/configuration/black_compatibility.html
+      args: ['--profile', 'black']
+- repo: https://github.com/psf/black
+  rev: 23.9.1
+  hooks:
+    - id: black
+      args: ['--line-length=120']
+- repo: https://github.com/asottile/pyupgrade
+  rev: v3.11.0
+  hooks:
+    - id: pyupgrade
+      args:
+        - "--py3-plus"
+        # Preserve types, even if a file imports `from __future__ import annotations`.
+        - "--keep-runtime-typing"
+- repo: https://github.com/PyCQA/flake8
+  rev: 6.1.0
+  hooks:
+    - id: flake8
+      # ignore the conflict with pep8
+      # https://black.readthedocs.io/en/stable/faq.html#why-are-flake8-s-e203-and-w503-violated
+      args: ['--max-line-length=120', '--extend-ignore=E203,W503,E231']
