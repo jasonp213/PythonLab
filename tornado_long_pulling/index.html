@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Long Polling Example</title>
+</head>
+<body>
+<h1>Long Polling Chat</h1>
+<input type="text" id="message" placeholder="Type a message">
+<button onclick="sendMessage()">Send</button>
+<div id="chat"></div>
+
+<script>
+    let lastMessageIndex = 0;
+
+    async function pollMessages() {
+        try {
+            const response = await fetch(`/poll?last_message=${lastMessageIndex}`);
+            const data = await response.json();
+
+            if (data.messages && data.messages.length > 0) {
+                lastMessageIndex += data.messages.length;
+                displayMessages(data.messages);
+            }
+        } catch (error) {
+            console.error('Error while polling:', error);
+        }
+        pollMessages();  // Keep polling
+    }
+
+    function displayMessages(messages) {
+        const chatDiv = document.getElementById("chat");
+        messages.forEach(message => {
+            const messageElem = document.createElement("p");
+            messageElem.textContent = message;
+            chatDiv.appendChild(messageElem);
+        });
+    }
+
+    async function sendMessage() {
+        const message = document.getElementById("message").value;
+        await fetch('/post', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `message=${encodeURIComponent(message)}`,
+        });
+    }
+
+    // Start polling messages as soon as the page loads
+    pollMessages();
+</script>
+</body>
+</html>
