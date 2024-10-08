@@ -1,12 +1,24 @@
-# Why we need upper cap on everything (暫)
+# 古蹟維護的版本上限（WIP）
 
-這篇[discussion](https://iscinumpy.dev/post/bound-version-constraints/#pinning-the-python-version-is-special)說我們不需要為`pyproject.toml`設置版本上限，
-但實際開發則是常常會發生如果不設定上限，
-那些開源庫就會教會你什麼是 breaking change
+最近看 [`pyproject.toml` 是如何配置](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/)，
+原本對當中版本的做法有些意見，說不建議為依賴設置版本上限感到奇怪，寫起來會像是這樣子
+```toml
+[project]
+name = "your-project"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115.0",
+]
+```
+~~實際開發則是常常會發生如果不設定上限，那些庫就會教會你什麼是 breaking change~~。
+裡面這篇[discussion](https://iscinumpy.dev/post/bound-version-constraints/#pinning-the-python-version-is-special)
+則是稍微解開一些疑惑，這建議對象是 package 開發者，在配置上限版本的情況下，對於引用了這份 package 的專案會造成更大的麻煩，
+根據[海侖定律](https://www.hyrumslaw.com/)，不管做出什麼修改都有可能是 breaking change，
+那應該去擁抱改變，
 
 ## TL;DR
 
-使用內文提到只需要 `pip` 的簡易 lockfile 作法
+- 使用 lockfile
 ```shell
 pip freeze > requirements-lock.txt
 pip install --no-deps -r requirements-lock.txt
@@ -16,7 +28,7 @@ pip install --no-deps -r requirements-lock.txt
 pip-compile requirements.in -o requirements.txt
 ```
 
-## 實際上會遇到的
+## 之前遇到的例子
 
 首先設定 Python(3.7.12) 虛擬環境
 ```shell
