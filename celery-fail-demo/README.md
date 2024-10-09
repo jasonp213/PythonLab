@@ -1,7 +1,7 @@
 # 古蹟維護的版本上限（WIP）
 
 最近看 [`pyproject.toml` 是如何配置](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/)，
-原本對當中版本的做法有些意見，說不建議為依賴設置版本上限感到奇怪，寫起來會像是這樣子
+原本對當中說不建議為依賴設置版本上限感到奇怪，亦賴關係會像是這樣子
 ```toml
 [project]
 name = "your-project"
@@ -10,23 +10,25 @@ dependencies = [
     "fastapi>=0.115.0",
 ]
 ```
-~~實際開發則是常常會發生如果不設定上限，那些庫就會教會你什麼是 breaking change~~。
-裡面這篇[discussion](https://iscinumpy.dev/post/bound-version-constraints/#pinning-the-python-version-is-special)
-則是稍微解開一些疑惑，這建議對象是 package 開發者，在配置上限版本的情況下，對於引用了這份 package 的專案會造成更大的麻煩，
-根據[海侖定律](https://www.hyrumslaw.com/)，不管做出什麼修改都有可能是 breaking change，
-那應該去擁抱改變，
+實際開發則是常常會發生如果不設定上限，那些有一點歷史的專案就會遇到各種依賴問題。
 
 ## TL;DR
 
-- 使用 lockfile
-```shell
-pip freeze > requirements-lock.txt
-pip install --no-deps -r requirements-lock.txt
-```
-為了符合一般Python開發的習慣，可以考慮使用 `pip-complie` 的使用編寫 `requirement.in` 然後產生需要的 `requiremets.txt`  
-```
-pip-compile requirements.in -o requirements.txt
-```
+分成 Application 和 Package 開發兩個場景
+- Package 開發遵照建議不設定上限
+- Application 開發使用 lockfile
+    ```shell
+    # Simple lockfile without poetry, pdm or uv.
+    pip freeze > requirements-lock.txt
+    pip install --no-deps -r requirements-lock.txt
+    ```
+
+## pinning python version
+
+裡面這篇[discussion](https://iscinumpy.dev/post/bound-version-constraints/#pinning-the-python-version-is-special)
+則是稍微解開一些疑惑，這建議對象是 package 開發者，
+在配置上限版本的情況下，對於引用了這份 package 的專案會造成更大的麻煩，
+根據[海侖定律](https://www.hyrumslaw.com/)，不管做出什麼修改都有可能是 breaking change，
 
 ## 之前遇到的例子
 
@@ -88,4 +90,4 @@ Task ID: bb932e99-667b-4cea-b562-6e9ea2ea3f78
 Task Status: PENDING
 Task Result: 10
 ```
-最後，如果一開始使用`Python>=3.8`到`pip install 'celery[redis]==4.3.0'`就可以收工，不過身為古蹟維護員只能選擇`3.7`，不然線上怎麼死的都不會知道。
+最後，如果一開始`Python==3.8`到`pip install 'celery[redis]==4.3.0'`就可以收工，不過身為維護員只能選擇`3.7`
