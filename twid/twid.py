@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import re
 
 
@@ -7,7 +9,7 @@ class TwID:
         if match:
             first_char, nums = match.groups()
             encoded = self.char_map(first_char) + nums
-            encoded_nums = (a * b for a, b in zip(map(int, encoded), [1, 9, 8, 7, 6, 5, 4, 3, 2, 1, 1]))
+            encoded_nums = (a * b for a, b in zip(map(int, encoded), [1, 9, 8, 7, 6, 5, 4, 3, 2, 1, 1], strict=False))
 
             return sum(encoded_nums) % 10 == 0
 

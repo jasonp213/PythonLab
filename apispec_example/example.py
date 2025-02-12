@@ -5,6 +5,9 @@ modify base on https://github.com/marshmallow-code/apispec
 only implement a little detail with https://docs.thecatapi.com/
 
 """
+
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 import requests

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 import logging.handlers
 import multiprocessing
@@ -27,7 +29,7 @@ def worker_process(task_queue, log_queue):
 def listener_configurer():
     root = logging.getLogger()
     h = logging.StreamHandler()
-    f = logging.Formatter("%(asctime)s %(" "processName)-15s %(levelname)-8s %(message)s")
+    f = logging.Formatter("%(asctime)s %(processName)-15s %(levelname)-8s %(message)s")
     h.setFormatter(f)
     root.addHandler(h)
 

@@ -1,6 +1,8 @@
 #  test_uut.py
 
 # import imp  # Library to help us reload our UUT module, which is Deprecated
+from __future__ import annotations
+
 import importlib
 from unittest import TestCase
 from unittest.mock import patch

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from diagrams import Cluster, Diagram
 from diagrams.aws.compute import EC2, ECS
 from diagrams.aws.database import RDS, ElastiCache

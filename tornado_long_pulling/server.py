@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import tornado.gen
 import tornado.ioloop
 import tornado.web
@@ -33,13 +35,11 @@ class MainHandler(tornado.web.RequestHandler):
 
 
 def make_app():
-    return tornado.web.Application(
-        [
-            (r"/", MainHandler),
-            (r"/poll", LongPollingHandler),
-            (r"/post", PostMessageHandler),
-        ]
-    )
+    return tornado.web.Application([
+        (r"/", MainHandler),
+        (r"/poll", LongPollingHandler),
+        (r"/post", PostMessageHandler),
+    ])
 
 
 if __name__ == "__main__":

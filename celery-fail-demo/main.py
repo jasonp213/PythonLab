@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 from celery_app import add
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Call the task asynchronously
     result = add.delay(4, 6)
 

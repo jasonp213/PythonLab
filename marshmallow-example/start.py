@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from datetime import date
 from pprint import pprint
 
@@ -15,8 +17,8 @@ class AlbumSchema(Schema):
 
 
 if __name__ == "__main__":
-    bowie = dict(name="David Bowie")
-    album = dict(artist=bowie, title="Hunky Dory", release_date=date(1971, 12, 17))
+    bowie = {"name": "David Bowie"}
+    album = {"artist": bowie, "title": "Hunky Dory", "release_date": date(1971, 12, 17)}
 
     schema = AlbumSchema()
     result = schema.dump(album)

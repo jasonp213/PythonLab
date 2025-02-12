@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from UnitTest.app.decorators import func_decor
 
 

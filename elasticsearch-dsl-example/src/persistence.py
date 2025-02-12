@@ -5,6 +5,8 @@ https://www.elastic.co/guide/en/kibana/7.6/tutorial-build-dashboard.html#load-da
 
 """
 
+from __future__ import annotations
+
 from elasticsearch_dsl import Date, Document, GeoPoint, Integer, Keyword, Text
 from elasticsearch_dsl.connections import connections
 
