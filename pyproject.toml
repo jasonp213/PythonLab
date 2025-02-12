@@ -1,0 +1,33 @@
+[project]
+name = "pythonlab"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+# Reference from project: pipdeptree
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+format.preview = true
+format.docstring-code-line-length = 100
+format.docstring-code-format = true
+lint.select = [
+  "ALL",
+]
+lint.ignore = [
+  "ANN101", # Missing type annotation for `self` in method
+  "COM812", # Conflict with formatter
+  "CPY",    # No copyright statements
+  "D203",   # `one-blank-line-before-class` (D203) and `no-blank-line-before-class` (D211) are incompatible
+  "D205",   # 1 blank line required between summary line and description
+  "D212",   # `multi-line-summary-first-line` (D212) and `multi-line-summary-second-line` (D213) are incompatible
+  "D301",   #  Use `r"""` if any backslashes in a docstring
+  "D401",   # First line of docstring should be in imperative mood
+  "DOC",    # no support yet
+  "ISC001", # Conflict with formatter
+  "S104",   # Possible binding to all interface
+]
+lint.isort = { required-imports = ["from __future__ import annotations",] }
+lint.preview = true
