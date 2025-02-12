@@ -12,4 +12,4 @@ repos:
   hooks:
     - id: ruff-format
     - id: ruff
-      args: ["--fix", "--unsafe-fixes", "--exit-non-zero-on-fix"]
+      args: ["--fix"]
